@@ -11,5 +11,6 @@ func GetRouter() *gin.Engine {
 	r.LoadHTMLGlob("view/*html")
 	r.Static("/css", "./static/css")
 	r.GET("/signup", users.SignUpPage)
+	r.POST("/signup", users.RegisterUser)
 	return r
 }

@@ -6,6 +6,10 @@ import (
 	"gorm.io/gorm"
 )
 
+func init() {
+	database.DB.AutoMigrate(&User{})
+}
+
 type User struct {
 	gorm.Model
 	Name     string
