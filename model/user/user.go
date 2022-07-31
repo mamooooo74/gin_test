@@ -12,8 +12,8 @@ func init() {
 
 type User struct {
 	gorm.Model
-	Name     string
-	Password string
+	Name     string `form:"username" binding:"required" gorm:"unique;not null"`
+	Password string `form:"password" binding:"required"`
 }
 
 func (u *User) Create() {
@@ -21,4 +21,9 @@ func (u *User) Create() {
 	if result.Error != nil {
 		panic(result.Error)
 	}
+}
+
+func GetUser(name string) (u User) {
+	database.DB.First(&u, "name = ?", name)
+	return
 }
