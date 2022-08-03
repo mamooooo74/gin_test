@@ -8,5 +8,15 @@
 </head>
 <body>
     <h1>root</h1>
+    {{ if .user.ID }}
+        <p>{{.user.Name}}</p>
+        <a href="logout">logout</a>
+    {{ else }}
+        <P>no login</P>
+        <a href="login">loginpage</a>
+    {{ end }}
+    
+
+
 </body>
 </html>

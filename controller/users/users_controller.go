@@ -5,6 +5,7 @@ import (
 	"gin_test/util/crypto"
 	"log"
 
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
@@ -34,14 +35,23 @@ func LoginUser(c *gin.Context) {
 
 	name := c.PostForm("name")
 	password := c.PostForm("password")
-	dbPassword := user.GetUser(name).Password
+	user := user.GetUser(name)
+	dbPassword := user.Password
 	err := crypto.CompareHashAndPassword(dbPassword, password)
 	if err != nil {
 		log.Println("not login")
 		c.HTML(400, "login.html", gin.H{})
 	} else {
+		session := sessions.Default(c)
+		session.Set("loginUserID", user.ID)
 		log.Println("login OK")
+		session.Save()
 		c.Redirect(302, "/")
 	}
-
+}
+func LogOut(c *gin.Context) {
+	session := sessions.Default(c)
+	session.Clear()
+	session.Save()
+	c.Redirect(302, "/")
 }
